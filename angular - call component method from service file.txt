@@ -1,0 +1,44 @@
+
+Call component method from service file
+problem: want to call component RefreshFormData() function from service file functionFromWhereComponentMethodwantToCalled() function
+
+Inside service file
+--------------------------------------
+export class LibLotlistBusinesslogicService {
+  constructor(
+    private httpClient: HttpClient,
+    public toastr: ToastrService) { }
+
+  subgridRefreshSubject = new BehaviorSubject<number>(0); // create BehaviorSubject (step 1)
+  
+  functionFromWhereComponentMethodwantToCalled()
+  {
+  //respective logic
+  
+  //To call component method here
+  this.subgridRefreshSubject.next(1);
+  }
+  
+  }
+  
+  
+component file
+---------------------------------------
+
+
+ngOnInit()
+{
+	this.libLotlistBusinesslogicService.subgridRefreshSubject.subscribe({
+      next: (v) => {
+          this.RefreshFormData(); // function which we want to call
+          this._cdr.detectChanges();        
+        console.log(`observerB: ${v}`);
+      },
+    });
+}
+
+
+RefreshFormData()
+{
+console.log("component method get called");
+}
